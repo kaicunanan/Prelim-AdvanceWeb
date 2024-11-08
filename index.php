@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Prelim Form  -->
         <?php if (!empty($studentData) && empty($grades)): ?>
             <div id="nextForm">
-                <h3>Enter Grades</h3>
+                <h3>Enter Grades <?php echo htmlspecialchars($studentData['first_name']); ?> <?php echo htmlspecialchars($studentData['last_name']); ?></h3>
                 <form method="post">
                     <input type="hidden" name="first_name" value="<?php echo htmlspecialchars($studentData['first_name']); ?>">
                     <input type="hidden" name="last_name" value="<?php echo htmlspecialchars($studentData['last_name']); ?>">
