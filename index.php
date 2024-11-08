@@ -150,6 +150,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php endif; ?>
 
+        <!-- Display All Information -->
+        <?php if (!empty($grades)): ?>
+            <div id="studentDetails">
+                <h3>Student Information & Grades</h3>
+                <p><strong>First Name:</strong> <?php echo htmlspecialchars($studentData['first_name']); ?></p>
+                <p><strong>Last Name:</strong> <?php echo htmlspecialchars($studentData['last_name']); ?></p>
+                <p><strong>Age:</strong> <?php echo htmlspecialchars($studentData['age']); ?></p>
+                <p><strong>Gender:</strong> <?php echo htmlspecialchars($studentData['gender']); ?></p>
+                <p><strong>Course:</strong> <?php echo htmlspecialchars($studentData['course']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($studentData['email']); ?></p>
+
+                <div class="grade-section">
+                    <p><strong>Prelim:</strong> <?php echo $grades['prelim']; ?></p>
+                    <p><strong>Midterm:</strong> <?php echo $grades['midterm']; ?></p>
+                    <p><strong>Final:</strong> <?php echo $grades['final']; ?></p>
+                    <p><strong>Average Grade:</strong> <span style="color:black"><?php echo number_format($averageGrade, 2); ?></span></p>
+                    <p><strong>Status:</strong> <span class="<?php echo $colorClass; ?>"><?php echo $gradeStatus; ?></span></p>
+                </div>
+            </div>
+        <?php endif; ?>
+
+</div>
+
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
