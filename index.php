@@ -46,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Student Enrollment Form -->
         <?php if (empty($studentData) || isset($_POST['GradeBtn'])): ?>
             <h3>Student Enrollment Form</h3>
-            <form method="post">
+            <form method="post" onsubmit="return validateEmail()">
                 <div class="form-group">
                     <label for="first_name">First Name:</label>
                     <input type="text" class="form-control" id="first_name" name="first_name" required>
@@ -88,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="age">Age:</label>
                     <input type="number" class="form-control" id="age" name="age" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="gender">Gender:</label>
                     <div class="form-check">
@@ -120,6 +121,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         <?php endif; ?>
 
+        <script>
+            function validateEmail() {
+                var emailInput = document.getElementById('email');
+                var email = emailInput.value;
+
+                // Regular expression to validate allowed email domains
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@(email|gmail|yahoo)\.com$/;
+
+                // Reset any previous custom validation messages
+                emailInput.setCustomValidity('');
+
+                // Check if the email matches the pattern
+                if (!emailPattern.test(email)) {
+                    // Set a custom validation message if the pattern does not match
+                    emailInput.setCustomValidity('Please enter a valid email (must be @email.com, @gmail.com, or @yahoo.com).');
+                    return false; // Prevent form submission
+                }
+
+                return true; // Allow form submission if email is valid
+            }
+
+            // To clear the validation message when the user starts typing again
+            document.getElementById('email').addEventListener('input', function() {
+                this.setCustomValidity('');
+            });
+        </script>
+
+
+
         <!-- Prelim Form  -->
         <?php if (!empty($studentData) && empty($grades)): ?>
             <div id="nextForm">
@@ -145,14 +175,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="number" class="form-control" name="finalInput" id="finalInput" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" name="GradeBtn">Submit Grades</button>
+                    <button type="submit" class="btn btn-success" name="GradeBtn">Submit Grades</button>
                 </form>
             </div>
         <?php endif; ?>
 
         <!-- Display All Information -->
         <?php if (!empty($grades)): ?>
-            <div id="studentDetails">
+            <div id="studentDetails" class="mt-4">
                 <h3>Student Information & Grades</h3>
                 <p><strong>First Name:</strong> <?php echo htmlspecialchars($studentData['first_name']); ?></p>
                 <p><strong>Last Name:</strong> <?php echo htmlspecialchars($studentData['last_name']); ?></p>
@@ -165,17 +195,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p><strong>Prelim:</strong> <?php echo $grades['prelim']; ?></p>
                     <p><strong>Midterm:</strong> <?php echo $grades['midterm']; ?></p>
                     <p><strong>Final:</strong> <?php echo $grades['final']; ?></p>
-                    <p><strong>Average Grade:</strong> <span style="color:black"><?php echo number_format($averageGrade, 2); ?></span></p>
-                    <p><strong>Status:</strong> <span class="<?php echo $colorClass; ?>"><?php echo $gradeStatus; ?></span></p>
+                    <p><strong>Average Grade:</strong><br> <span style="color:black"><?php echo number_format($averageGrade, 2); ?> <?php echo "-" ?> <span class="<?php echo $colorClass; ?>"><?php echo $gradeStatus; ?></span></span></p>
                 </div>
             </div>
         <?php endif; ?>
+    </div>
 
-</div>
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
